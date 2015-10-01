@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Bish by AICIDNN</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Bish</h1>
+        <h2>Bish is a language that compiles to Bash. It&#39;s designed to give shell scripting a more comfortable and modern feel.</h2>
+        <a href="https://github.com/AICIDNN/bish" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="bish" class="anchor" href="#bish" aria-hidden="true"><span class="octicon octicon-link"></span></a>bish</h1>
+
+<p>Shell scripting with a modern feel.</p>
+
+<h2>
+<a id="what" class="anchor" href="#what" aria-hidden="true"><span class="octicon octicon-link"></span></a>What</h2>
+
+<p>Bish is a lightweight language created to bring shell scripting into the 21st century. It gives programmers the comfort of modern syntax but compiles to Bash, resulting in good portability (in as much as Bash is portable).</p>
+
+<p>Currently, Bish is still a very new language. I am adding new features as fast as I can, but it is bound not to support something you might like. In that case, see if you can implement it and submit a pull request!</p>
+
+<p>As a side note, I won't stop you, but you would probably be crazy to use Bish in any sort of production environment until it stabilizes a bit more.</p>
+
+<p>Some small examples are below, but <strong>see the <a href="https://github.com/tdenniston/bish/wiki">introduction</a> wiki page for a more comprehensive introduction</strong>.</p>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<h5>
+<a id="function-calls" class="anchor" href="#function-calls" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function calls</h5>
+
+<pre><code>def fib(n) {
+    if (n &lt; 2) {
+        return 1
+    }
+    return fib(n-1) + fib(n-2)
+}
+</code></pre>
+
+<h5>
+<a id="shell-commands" class="anchor" href="#shell-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shell commands</h5>
+
+<pre><code>def printall(files) {
+    for (f in files) {
+        println(f)
+    }
+}
+# cwd, ls, and cd are all builtin functions.
+dir = cwd()
+files = ls()
+println("Files in current directory $dir:")
+printall(files)
+cd("/")
+println("Files in root directory:")
+printall(ls());
+</code></pre>
+
+<h5>
+<a id="shell-like-features" class="anchor" href="#shell-like-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shell-like features</h5>
+
+<pre><code># I/O redirection (like pipes) is a first-class language feature.
+pattern = "bish"
+matches = ls() | @(grep $pattern)
+println("Files in current directory matching $pattern:")
+for (m in matches) {
+    println(m)
+}
+</code></pre>
+
+<h2>
+<a id="how" class="anchor" href="#how" aria-hidden="true"><span class="octicon octicon-link"></span></a>How</h2>
+
+<p><a href="https://github.com/tdenniston/bish/releases/tag/v0.1">Download</a> the latest stable release, or clone the repository for the latest and greatest.</p>
+
+<p>Build with 'make'. There are no dependencies other than the C++ standard library (and make itself). Compile a bish program to bash with the command:</p>
+
+<pre><code>$ ./bish input.bish &gt; output.bash
+</code></pre>
+
+<p>Then run the compiled file:</p>
+
+<pre><code>$ bash output.bash
+</code></pre>
+
+<p>You can also perform this in a single step by using the <code>-r</code> (for "run") argument:</p>
+
+<pre><code>$ ./bish -r input.bish
+</code></pre>
+
+<p>This compiles and pipes the output directly to a bash process.</p>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
+
+<p>I can't count the number of times when I wanted to write a quick shell script to automate an easy task, only to waste hours tracking down idiosyncrasies in Bash syntax and semantics. Bish tries to fill this niche: when you want a lightweight shell scripting language and don't wish to break out the larger hammer of Python, Perl, etc...</p>
+
+<p>However, I created this language first and foremost as a weekend project and exercise in writing a compiler from scratch. I've dealt with pieces of compilers before, but have never written one from start to finish. Thus, I hope this project can also serve as a good teaching tool. I tried to design it with clarity in mind, so it should be simple to extend the language, or write a new back end.</p>
+
+<h2>
+<a id="news" class="anchor" href="#news" aria-hidden="true"><span class="octicon octicon-link"></span></a>News</h2>
+
+<ul>
+<li>Apr 20 2015 -- Bish version 0.1 released. This is the first tagged release for bish.</li>
+<li>Apr 8 2015 -- I've been caught up in my day job recently, and a few of the features I want to implement before doing a 0.1 release are requiring more infrastructure work than I anticipated. I'm hoping to do a 0.1 release within the next week or two weeks.</li>
+</ul>
+
+<h2>
+<a id="to-do" class="anchor" href="#to-do" aria-hidden="true"><span class="octicon octicon-link"></span></a>To do</h2>
+
+<p>The language and compiler are pretty bare-bones as of now, but quite functional. There are numerous things in the pipeline (see the open issues for a list). Longer term, here are some ideas of features that might be implemented:</p>
+
+<ul>
+<li>Additional compiler targets, e.g. <code>sh</code> for even wider compatability, or <code>ksh</code> for vanilla AIX support.</li>
+<li>Multidimensional arrays, and potentially arrays of mixed types.</li>
+<li>Syntactical sugar for more shell-like function invocation. For example, typing <code>cd("path")</code> or <code>ls("-l")</code> might get old when writing bish scripts. Bish could support an alternate invocation syntax of <code>function arg0 arg1...</code> so that these functions could be invoked like <code>cd path</code> or <code>ls -l</code> directly in the bish script.</li>
+<li>Language support for executing portions of bish scripts as other users (e.g. the administrator).</li>
+<li>Language support for executing commands on remote machines.</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/AICIDNN/bish/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/AICIDNN/bish/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/AICIDNN/bish"></a> is maintained by <a href="https://github.com/AICIDNN">AICIDNN</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
